@@ -6,12 +6,13 @@ define([ "buzz" ], function(buzz) {
 	 * The audio library takes care of loading and processing
 	 * audio elements in the interface.
 	 */
-	var AudioLibrary = function() {
+	var AudioLibrary = function( progressManager ) {
 
 		/**
-		 * @property The viewport object
+		 * The progress manager to use to report loading events
+		 * @property
 		 */
-		this.viewport = null;
+		this.progressManager = progressManager;
 
 	}
 

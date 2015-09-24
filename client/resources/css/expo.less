@@ -12,3 +12,62 @@ body {
 	width: 100%; 
 	height: 100%;
 }
+
+//
+// HMD-Aware DOM Element
+//
+@hade-width: 500px;
+@hade-height: 400px;
+.hade {
+	
+	// Everything is absolute positioned
+	&, .hade-left, .hade-right {
+		position: absolute;
+		left: 0; top: 0;
+
+		-webkit-transform-origin: 0 0;
+		-moz-transform-origin: 0 0;
+		-ms-transform-origin: 0 0;
+		-o-transform-origin: 0 0;
+		transform-origin: 0 0;
+
+	}
+
+	// Enable HMD distortion
+	&.hmd {
+		// Squeeze them in half-width
+		.hade-left, .hade-right {
+			-webkit-transform: scaleX(0.5);
+			-moz-transform: scaleX(0.5);
+			-ms-transform: scaleX(0.5);
+			-o-transform: scaleX(0.5);
+			transform: scaleX(0.5);
+		}
+		// Offset right DOM
+		.hade-right {
+			left: 50%;
+		}
+	}
+
+	// The content pane
+	.content {
+	
+		// Coloring
+		background-color: #FFF;
+
+		// Position and size
+		position: absolute;
+		width: @hade-width;
+		height: @hade-height;
+		
+		// Center
+		left: 50%; top: 50%;
+		-webkit-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		-moz-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		-ms-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		-o-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+
+	}
+
+}

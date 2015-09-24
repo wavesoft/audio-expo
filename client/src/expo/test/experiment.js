@@ -6,7 +6,6 @@ define(["expo/experiment/base"], function(BaseExperiment) {
 	 * Create an experiment base class
 	 */
 	var Experiment = function() {
-
 		BaseExperiment.call(this);
 
 		var geometry = new THREE.SphereGeometry( 5, 4, 4 );

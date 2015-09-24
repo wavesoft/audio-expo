@@ -38,7 +38,6 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Initialize the sizes (apply actual size)
 		this.resize();
-		$(window).resize((function() { this.resize(); }).bind(this));
 
 		// Bind auto-pause event!
 		$(window).blur((function() { if (this.autoPause) this.setPaused(true); }).bind(this));

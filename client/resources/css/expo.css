@@ -5,3 +5,39 @@
   width: 100%;
   height: 100%;
 }
+.hade,
+.hade .hade-left,
+.hade .hade-right {
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.hade.hmd .hade-left,
+.hade.hmd .hade-right {
+  -webkit-transform: scaleX(0.5);
+  -moz-transform: scaleX(0.5);
+  -ms-transform: scaleX(0.5);
+  -o-transform: scaleX(0.5);
+  transform: scaleX(0.5);
+}
+.hade.hmd .hade-right {
+  left: 50%;
+}
+.hade .content {
+  background-color: #FFF;
+  position: absolute;
+  width: 500px;
+  height: 400px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateX(-250px) translateY(-200px);
+  -moz-transform: translateX(-250px) translateY(-200px);
+  -ms-transform: translateX(-250px) translateY(-200px);
+  -o-transform: translateX(-250px) translateY(-200px);
+  transform: translateX(-250px) translateY(-200px);
+}
