@@ -40,8 +40,19 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		this.resize();
 
 		// Bind auto-pause event!
-		$(window).blur((function() { if (this.autoPause) this.setPaused(true); }).bind(this));
-		$(window).focus((function() { if (this.autoPause) this.setPaused(false); }).bind(this));
+		var preBlurStatus = false;
+		$(window).blur((function() { 
+			// Keep the state before blur
+			preBlurStatus = this.paused;
+			// If not paused, paused
+			if (this.autoPause && !this.paused) 
+				this.setPaused(true); 
+		}).bind(this));
+		$(window).focus((function() {
+			// Return to the state before blur
+			if (this.autoPause && !this.paused) 
+				this.setPaused(preBlurStatus);
+		}).bind(this));
 
 		// ==== DEBUG =====
 		window.vp = this;
@@ -75,9 +86,8 @@ define(["three-extras", "jquery"], function(THREE, $) {
 	 */
 	Viewport.prototype.animate = function() {
 
-		// Break or continue loop
-		if (this.paused) return;
-		requestAnimationFrame( this.animate.bind(this) );
+		// Schedule next frame if not paused
+		if (!this.paused) requestAnimationFrame( this.animate.bind(this) );
 
 		// Get elapsed time to update animations
 		var t = Date.now();

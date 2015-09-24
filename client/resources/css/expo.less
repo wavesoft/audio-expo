@@ -1,6 +1,12 @@
 
 body {
-	
+	font-size: 16px;
+}
+@import url("http://weloveiconfonts.com/api/?family=entypo");
+
+// Entypo
+[class*="entypo-"]:before {
+	font-family: 'entypo', sans-serif;
 }
 
 //
@@ -13,11 +19,114 @@ body {
 	height: 100%;
 }
 
-//
+// ============================
+// Splash Screen
+// ============================
+
+// Configuration
+@splash-width: 450px;
+@splash-height: 200px;
+
+.splash {
+
+	// Position
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+
+	// Styling
+	background-color: rgba(0,0,0,0.5);
+
+	// Inner panel
+	.panel {
+
+		// Position and size
+		position: absolute;
+		width: @splash-width;
+		height: @splash-height;
+		
+		// Center
+		left: 50%; top: 50%;
+		-webkit-transform: translateX(-@splash-width/2) translateY(-@splash-height/2) ;
+		-moz-transform: translateX(-@splash-width/2) translateY(-@splash-height/2) ;
+		-ms-transform: translateX(-@splash-width/2) translateY(-@splash-height/2) ;
+		-o-transform: translateX(-@splash-width/2) translateY(-@splash-height/2) ;
+		transform: translateX(-@splash-width/2) translateY(-@splash-height/2) ;
+
+		// Styling
+		border-radius: 20px;
+		background-color: rgba(30,30,30,0.8);
+		
+		// Heading
+		.head {
+			font-size: 20px;
+			color: #999;
+			text-align: center;
+			padding: 20px;
+		}
+
+		// Buttons footer
+		.buttons {
+
+			// Positioning of te buttons frame
+			text-align: center;
+			position: absolute;
+			left: 0; right: 0; bottom: 0;
+			padding: 20px 10px;
+
+			// Button
+			button {
+
+				// Styling
+				padding: 10px;
+				border-radius: 5px;
+				border: solid 1px #333;
+				cursor: pointer;
+
+				// Animation
+				-webkit-transition: all 0.25s;
+				-moz-transition: all 0.25s;
+				-ms-transition: all 0.25s;
+				-o-transition: all 0.25s;
+				transition: all 0.25s;
+
+				// Coloring
+				background-color: #000;
+				color: #666;
+
+				// Fonts & Icon
+				font-size: 1em;
+				span {
+					font-size: 1.4em;
+				}
+
+				// Interactive
+				&:hover {
+					background-color: #222;
+					color: #FFF;
+				}
+				&:active {
+					background-color: #666;
+					color: #000;
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+// ============================
 // HMD-Aware DOM Element
-//
+// ============================
+
+// Configuration
 @hade-width: 500px;
 @hade-height: 400px;
+
+// Base class
 .hade {
 	
 	// Everything is absolute positioned
@@ -51,9 +160,6 @@ body {
 
 	// The content pane
 	.content {
-	
-		// Coloring
-		background-color: #FFF;
 
 		// Position and size
 		position: absolute;

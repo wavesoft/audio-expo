@@ -1,22 +1,17 @@
 
-define(["jquery", "expo/render/manager", "expo/test/experiment"], 
-      function($, RenderManager, Experiment) {
+define(["jquery", "expo/render/kernel", "expo/test/experiment"], 
+      function($, Kernel, Experiment) {
 
 	// Create a viewport DOM
 	var bodyDOM = $("body"),
 		viewportDOM = $('<div id="viewport"></div>').appendTo(bodyDOM);
 
 	// Create viewport
-	RenderManager.createViewport( viewportDOM );
+	var kernel = new Kernel( viewportDOM );
 
-	// Set HADE contents
-	var dom = RenderManager.hade.setContents( $("#test") );
-	dom.find(".test-btn").click(function(e) {
-		alert('boop!');
-	});
-
+	// Load a dummy experiment
 	var x1 = new Experiment();
-	RenderManager.viewport.addExperiment( x1 );
+	kernel.viewport.addExperiment( x1 );
 
 	// We are ready
 	bodyDOM.removeClass("loading");

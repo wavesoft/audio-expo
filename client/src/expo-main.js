@@ -24,6 +24,15 @@ requirejs.config({
 		'waitSeconds'	: 20
 	},
 
+    /**
+     * Mapping to other modules
+     */
+	map: {
+		'*': {
+			'text'		 : 'lib/require-text/js/text-2.0.14'
+		},
+	}
+
 });
 
 /**

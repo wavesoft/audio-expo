@@ -6,11 +6,12 @@ define(["jquery"], function($) {
 	 * HMD-Aware DOM Element
 	 *
 	 */
-	var HADE = function() {
+	var HADE = function( viewport ) {
 
 		// Keep a reference of the viewport
-		this.viewport = null;
+		this.viewport = viewport;
 		this.useHMD = false;
+		this.tree = null;
 
 		// The DOM element that hosts the UI
 		this.hostDOM = $('<div class="hade"></div>');
@@ -21,6 +22,27 @@ define(["jquery"], function($) {
 		this.rightHostDOM = $('<div class="hade-right"></div>').appendTo(this.hostDOM);
 		this.rightDOM = $('<div class="content"></div>').appendTo(this.rightHostDOM);
 
+		// Synchronize right DOM with left
+		this.leftDOM.on("DOMSubtreeModified", (function(){ 
+			if (!this.tree) return;
+
+			// When anything from left DOM changes, clone the whole dom to the right DOM
+			this.rightDOM.empty();
+			this.rightDOM.append( this.tree.clone() );
+
+		}).bind(this));
+		this.leftDOM.on("DOMAttrModified", (function(e){ 
+
+			// Find the target element
+			window.e = e;
+			alert("happened!");
+
+		}).bind(this));
+
+		// Embed hostDOM to the viewport
+		viewport.viewportDOM.append( this.hostDOM );
+		this.resize();
+
 	}
 
 	/**
@@ -30,15 +52,17 @@ define(["jquery"], function($) {
 
 		// Flush both DOMs
 		this.leftDOM.empty();
-		this.rightDOM.empty();
+		// this.rightDOM.empty();
 
 		// Append DOM Tree to left & clone on right
+		this.tree = tree;
 		this.leftDOM.append( tree );
-		this.rightDOM.append( tree.clone(true, true) );
+		// this.rightDOM.append( tree.clone(true, true) );
 
 		// Select both contents and return a unified selector
 		// This can be used for updating both contents at once
-		return this.hostDOM.find("div > .content");
+		// return this.hostDOM.find("div > .content");
+		return tree;
 
 	}
 
@@ -59,22 +83,6 @@ define(["jquery"], function($) {
 			this.rightHostDOM.hide();
 
 		}
-	}
-
-	/**
-	 * Define the viewport to use
-	 * 
-	 * @property {Viewport} viewport - The viewport where the content is rendered
-	 */
-	HADE.prototype.setViewport = function( viewport ) {
-
-		// Embed hostDOM to the viewport
-		viewport.viewportDOM.append( this.hostDOM );
-
-		// Keep a reference of the viewport for resizing
-		this.viewport = viewport;
-		this.resize();
-
 	}
 
 	/**

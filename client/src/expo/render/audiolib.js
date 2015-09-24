@@ -23,6 +23,18 @@ define([ "buzz" ], function(buzz) {
 
 	}
 
+	/**
+	 * Pause all the currently playing sounds
+	 */
+	AudioLibrary.prototype.pause = function () {
+	}
+
+	/**
+	 * Resume all the currently playing sounds
+	 */
+	AudioLibrary.prototype.resume = function () {
+	}
+
 	// Return render manager singleton
 	return AudioLibrary;
 
