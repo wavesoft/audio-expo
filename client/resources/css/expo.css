@@ -896,6 +896,13 @@ body {
   height: 25px;
   background-color: #990099;
 }
+.progressbar .message {
+  position: absolute;
+  left: 7px;
+  top: -17px;
+  color: #fff;
+  font-size: 0.8em;
+}
 .splash {
   position: absolute;
   left: 0;

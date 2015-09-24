@@ -77,7 +77,11 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 			return;
 		}
 
+		// We are loading
+		this._loading = true;
+
 		// Load a sound and store it
+		this.progressManager.message("Loading sounds");
 		WebAudiox.loadBuffer( this.context, url, (function(buffer){
 
 			// Mark progress item as completed
@@ -85,6 +89,14 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 
 			// Store on sound buffer
 			this.soundBuffers[url] = buffer;
+
+			// Load next
+			this._loadNext();
+
+		}).bind(this), (function(error) {
+
+			// An error occured
+			alert(error);
 
 		}).bind(this));
 
@@ -109,7 +121,7 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 
 		// Schedule for loading
 		this._loadingStack.push(fullURL);
-		this.progressManager.begin();
+		this.progressManager.schedule();
 
 		// Start loading process if not running
 		if (!this._loading) this._loadNext();

@@ -80,24 +80,27 @@ define([ "jquery",
 		//
 		// Bind progress bar to the progress events
 		//
-		this.progressManager.onProgressBegin((function() {
+		this.progressManager.onProgressBegin((function(message) {
 
 			// Show bar
 			this.progressbar.addClass("active");
+			this.progressbar.find(".message").text(message);
 
 		}).bind(this));
 		this.progressManager.onProgressCompleted((function() {
 
 			// Hide bar
 			this.progressbar.removeClass("active");
+			this.progressbar.find(".message").text("");
 
 		}).bind(this));
-		this.progressManager.onProgress((function( progress ) {
+		this.progressManager.onProgress((function( progress, message ) {
 
 			// Update indicator
 			this.progressbar.children(".indicator").css({
 				width: (progress*100) + '%'
 			});
+			this.progressbar.find(".message").text(message);
 
 		}).bind(this));
 

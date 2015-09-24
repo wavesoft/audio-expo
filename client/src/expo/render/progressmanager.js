@@ -40,6 +40,11 @@ define(['jquery'], function($) {
 		 */
 		this.completeListeners = [];
 
+		/**
+		 * Last message when no new message exists
+		 */
+		this.lastMessage = "";
+
 	}
 
 	/**
@@ -70,12 +75,29 @@ define(['jquery'], function($) {
 	}
 
 	/**
+	 * Just send a message without any progress update
+	 *
+	 * @param {string} message - The message associated with them
+	 */
+	ProgressFeedback.prototype.message = function ( message ) {
+
+		// Only if we are not completed
+		if (this.pendingItems == this.completedItems) return;
+		if (message) this.lastMessage = message;
+
+		// Fire progress handlers
+		for (var i=0; i<this.progressListeners.length; i++)
+			this.progressListeners[i]( this.completedItems / this.pendingItems, this.lastMessage );
+
+	}
+
+	/**
 	 * Inform that one or more item(s) are scheduled for loading
 	 *
 	 * @param {int} tasks - The number of tasks being started
 	 * @param {string} message - The message associated with them
 	 */
-	ProgressFeedback.prototype.begin = function ( tasks, message ) {
+	ProgressFeedback.prototype.schedule = function ( tasks, message ) {
 
 		// Apply defaults
 		if (tasks == undefined) {
@@ -83,7 +105,7 @@ define(['jquery'], function($) {
 		} else if (typeof(tasks) == "string") {
 			message = tasks; tasks = 1;
 		}
-		if (!message) message = "";
+		if (message) this.lastMessage = message;
 
 		// Check if that's the first event
 		var isFirst = (this.pendingItems == this.completedItems);
@@ -93,12 +115,12 @@ define(['jquery'], function($) {
 
 		// Fire progress handlers
 		for (var i=0; i<this.progressListeners.length; i++)
-			this.progressListeners[i]( this.completedItems / this.pendingItems );
+			this.progressListeners[i]( this.completedItems / this.pendingItems, this.lastMessage );
 
 		// Trigger beginhandlers if that was the first
 		if (isFirst) {
 			for (var i=0; i<this.beginListeners.length; i++)
-				this.beginListeners[i](message);
+				this.beginListeners[i](this.lastMessage);
 		}
 	}
 
@@ -116,7 +138,7 @@ define(['jquery'], function($) {
 		} else if (typeof(tasks) == "string") {
 			message = tasks; tasks = 1;
 		}
-		if (!message) message = "";
+		if (message) this.lastMessage = message;
 
 		// Update number of completed tasks
 		this.completedItems += tasks;
@@ -125,12 +147,20 @@ define(['jquery'], function($) {
 
 		// Fire progress handlers
 		for (var i=0; i<this.progressListeners.length; i++)
-			this.progressListeners[i]( this.completedItems / this.pendingItems );
+			this.progressListeners[i]( this.completedItems / this.pendingItems, this.lastMessage );
 
 		// Check for completion
 		if (this.completedItems == this.pendingItems) {
+
+			// Trigger callbacks
 			for (var i=0; i<this.completeListeners.length; i++)
-				this.completeListeners[i](message);
+				this.completeListeners[i]("");
+
+			// Reset properties
+			this.completedItems = 0;
+			this.pendingItems = 0;
+			this.lastMessage = "";
+
 		}
 
 	}
