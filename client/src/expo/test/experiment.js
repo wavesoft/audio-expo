@@ -1,19 +1,18 @@
 
 
-define(["three"], function(THREE) {
+define(["expo/experiment/base"], function(BaseExperiment) {
 
 	/**
 	 * Create an experiment base class
 	 */
 	var Experiment = function() {
 
-		// Create a container of the scene
-		this.scene = new THREE.Object3D();
-		this.lights = [];
+		BaseExperiment.call(this);
 
-		var geometry = new THREE.BoxGeometry( 5, 5, 5 );
+		var geometry = new THREE.SphereGeometry( 5, 4, 4 );
 		var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
 
+		// Create a bunch of cubes
 		this.cubes = [];
 		for (var i=0; i<100; i++) {
 			var cube = new THREE.Mesh( geometry, material );
@@ -27,18 +26,26 @@ define(["three"], function(THREE) {
 					Math.random() * 3,
 					Math.random() * 3
 				);
-			this.scene.add( cube );
 			this.cubes.push(cube);
+
+			// Put on scene
+			this.scene.add( cube );
+
 		}
 
+		// Create some point light 
 		var light = new THREE.PointLight( 0xffffff, 1, 1000 );
 		light.position.set( 50,50,50 );
+
+		// Store on lights
 		this.lights.push( light );
 
-		this.light = light;
-
-
 	}
+
+	/**
+	 * Subclass from BaseExperiment
+	 */
+	Experiment.prototype = Object.create( BaseExperiment );
 
 	/**
 	 * Handle animation events

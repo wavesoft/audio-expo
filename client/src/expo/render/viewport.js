@@ -23,10 +23,11 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		// Initialize a camera (with dummy ratio)
 		this.camera = new THREE.PerspectiveCamera( 75, 1.0, 0.1, 1000 );
 
-		// 
-		this.camera.position.x = 10;
-		this.camera.position.z = 0;
-		this.camera.lookAt( new THREE.Vector3( 0,0,0 ));
+		// Set the initial location of the camera
+		// (Virtual units assumed to be meters)
+		this.camera.position.x = -5.0;
+		this.camera.position.z = 2.8;
+		this.camera.lookAt( new THREE.Vector3( 0, 0, 2.8 ) );
 
 		// Initialize the renderer
 		this.renderer = new THREE.WebGLRenderer();
@@ -43,7 +44,10 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		$(window).blur((function() { if (this.autoPause) this.setPaused(true); }).bind(this));
 		$(window).focus((function() { if (this.autoPause) this.setPaused(false); }).bind(this));
 
+		// ==== DEBUG =====
 		window.vp = this;
+		// ================
+
 	}
 
 	/**
