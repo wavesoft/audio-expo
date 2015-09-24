@@ -1,6 +1,6 @@
 
 
-define(["expo/experiment/base"], function(BaseExperiment) {
+define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment) {
 
 	/**
 	 * Create an experiment base class

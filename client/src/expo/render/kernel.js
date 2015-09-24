@@ -1,7 +1,20 @@
 
 
-define([ "jquery", "./viewport", "./audiolib", "./progressmanager", "expo/interface/launcher", "expo/interface/hade" ], 
-	function($, Viewport, AudioLibrary, ProgressManager, LauncherScreen, HADE ) {
+define([ "jquery", 
+		 "./viewport", 
+		 "./audiolib", 
+		 "./progressmanager",
+		 "expo/interface/launcher",
+		 "expo/interface/progressbar",
+		 "expo/interface/hade" ], 
+	function($, 
+		Viewport, 
+		AudioLibrary, 
+		ProgressManager, 
+		LauncherScreen, 
+		ProgressBar,
+		HADE
+	) {
 
 	/**
 	 * This is the core class of the exposition that takes care of
@@ -38,6 +51,13 @@ define([ "jquery", "./viewport", "./audiolib", "./progressmanager", "expo/interf
 		this.hade = new HADE( this.viewport );
 
 		/**
+		 * The game-wide progress bar
+		 * @property audio
+		 */
+		this.progressbar = ProgressBar;
+		viewportDOM.append( this.progressbar );
+
+		/**
 		 * The splash screen shown to the user when the app
 		 * is not running
 		 * @property splash
@@ -56,6 +76,30 @@ define([ "jquery", "./viewport", "./audiolib", "./progressmanager", "expo/interf
 		/**
 		 * Core event listeners
 		 */
+
+		//
+		// Bind progress bar to the progress events
+		//
+		this.progressManager.onProgressBegin((function() {
+
+			// Show bar
+			this.progressbar.addClass("active");
+
+		}).bind(this));
+		this.progressManager.onProgressCompleted((function() {
+
+			// Hide bar
+			this.progressbar.removeClass("active");
+
+		}).bind(this));
+		this.progressManager.onProgress((function( progress ) {
+
+			// Update indicator
+			this.progressbar.children(".indicator").css({
+				width: (progress*100) + '%'
+			});
+
+		}).bind(this));
 
 		//
 		// Resize all relevant components when window resizes
@@ -94,6 +138,11 @@ define([ "jquery", "./viewport", "./audiolib", "./progressmanager", "expo/interf
 		document.addEventListener("mozfullscreenchange", FShandler);
 		document.addEventListener("MSFullscreenChange", FShandler);
 
+		// Wait when DOM is loaded and hit one render
+		setTimeout((function() {
+			this.viewport.render();
+		}).bind(this), 500);
+
 		// ==== DEBUG =====
 		window.m = this;
 		// ================
@@ -120,7 +169,6 @@ define([ "jquery", "./viewport", "./audiolib", "./progressmanager", "expo/interf
 
 		// Disable HMD
 		this.setHMD(false);
-		this.viewport.animate();
 
 		// Pause viewport rendering
 		this.viewport.setPaused( true );

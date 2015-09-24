@@ -871,6 +871,31 @@ body {
   width: 100%;
   height: 100%;
 }
+.progressbar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  opacity: 0;
+  height: 0px;
+  -webkit-transition: height 0.25s, opacity 0.25s;
+  -moz-transition: height 0.25s, opacity 0.25s;
+  -ms-transition: height 0.25s, opacity 0.25s;
+  -o-transition: height 0.25s, opacity 0.25s;
+  transition: height 0.25s, opacity 0.25s;
+}
+.progressbar.active {
+  opacity: 1;
+  height: 25px;
+}
+.progressbar .indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 25px;
+  background-color: #990099;
+}
 .splash {
   position: absolute;
   left: 0;
@@ -881,23 +906,26 @@ body {
 }
 .splash .panel {
   position: absolute;
-  width: 450px;
-  height: 200px;
+  width: 500px;
+  height: 240px;
   left: 50%;
   top: 50%;
-  -webkit-transform: translateX(-225px) translateY(-100px);
-  -moz-transform: translateX(-225px) translateY(-100px);
-  -ms-transform: translateX(-225px) translateY(-100px);
-  -o-transform: translateX(-225px) translateY(-100px);
-  transform: translateX(-225px) translateY(-100px);
+  -webkit-transform: translateX(-250px) translateY(-120px);
+  -moz-transform: translateX(-250px) translateY(-120px);
+  -ms-transform: translateX(-250px) translateY(-120px);
+  -o-transform: translateX(-250px) translateY(-120px);
+  transform: translateX(-250px) translateY(-120px);
   border-radius: 20px;
   background-color: rgba(30, 30, 30, 0.8);
 }
-.splash .panel .head {
-  font-size: 20px;
-  color: #999;
+.splash .panel .content {
+  font-size: 16px;
   text-align: center;
   padding: 20px;
+  color: #666;
+}
+.splash .panel .content h1 {
+  color: #999;
 }
 .splash .panel .buttons {
   text-align: center;

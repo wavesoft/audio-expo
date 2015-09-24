@@ -23,6 +23,11 @@ require.config({
 			'location'	: 'lib/buzz/js',
 			'main'		: 'buzz-1.1.10.min'
 		},
+		{
+			'name'		: 'webaudiox',
+			'location'	: 'lib/webaudiox/js',
+			'main'		: 'webaudiox'
+		},
 	],
 
 });

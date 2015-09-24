@@ -92,12 +92,12 @@ define(['jquery'], function($) {
 		this.pendingItems += tasks;
 
 		// Fire progress handlers
-		for (var i=0; i<this.beginProgressHandlers.length; i++)
+		for (var i=0; i<this.progressListeners.length; i++)
 			this.progressListeners[i]( this.completedItems / this.pendingItems );
 
 		// Trigger beginhandlers if that was the first
 		if (isFirst) {
-			for (var i=0; i<this.beginProgressHandlers.length; i++)
+			for (var i=0; i<this.beginListeners.length; i++)
 				this.beginListeners[i](message);
 		}
 	}
@@ -119,17 +119,17 @@ define(['jquery'], function($) {
 		if (!message) message = "";
 
 		// Update number of completed tasks
-		this.completedItems += t.asks;
+		this.completedItems += tasks;
 		if (this.completedItems > this.pendingItems)
 			this.completedItems = this.pendingItems;
 
 		// Fire progress handlers
-		for (var i=0; i<this.beginProgressHandlers.length; i++)
+		for (var i=0; i<this.progressListeners.length; i++)
 			this.progressListeners[i]( this.completedItems / this.pendingItems );
 
 		// Check for completion
 		if (this.completedItems == this.pendingItems) {
-			for (var i=0; i<this.beginProgressHandlers.length; i++)
+			for (var i=0; i<this.completeListeners.length; i++)
 				this.completeListeners[i](message);
 		}
 

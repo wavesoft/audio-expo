@@ -39,20 +39,20 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		// Initialize the sizes (apply actual size)
 		this.resize();
 
-		// Bind auto-pause event!
-		var preBlurStatus = false;
-		$(window).blur((function() { 
-			// Keep the state before blur
-			preBlurStatus = this.paused;
-			// If not paused, paused
-			if (this.autoPause && !this.paused) 
-				this.setPaused(true); 
-		}).bind(this));
-		$(window).focus((function() {
-			// Return to the state before blur
-			if (this.autoPause && !this.paused) 
-				this.setPaused(preBlurStatus);
-		}).bind(this));
+		// // Bind auto-pause event
+		// var preBlurStatus = false;
+		// $(window).blur((function() { 
+		// 	// Keep the state before blur
+		// 	preBlurStatus = this.paused;
+		// 	// If not paused, paused
+		// 	if (this.autoPause && !this.paused) 
+		// 		this.setPaused(true); 
+		// }).bind(this));
+		// $(window).focus((function() {
+		// 	// Return to the state before blur
+		// 	if (this.autoPause && !this.paused) 
+		// 		this.setPaused(preBlurStatus);
+		// }).bind(this));
 
 		// ==== DEBUG =====
 		window.vp = this;
@@ -79,24 +79,32 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		// Update renderer
 		this.renderer.setSize( width, height );
 
+		// Re-render if paused
+		if (this.paused) this.render();
+
 	}
 
 	/**
-	 * Animate
+	 * Render content
 	 */
-	Viewport.prototype.animate = function() {
+	Viewport.prototype.render = function() {
 
 		// Schedule next frame if not paused
-		if (!this.paused) requestAnimationFrame( this.animate.bind(this) );
+		if (!this.paused) requestAnimationFrame( this.render.bind(this) );
 
 		// Get elapsed time to update animations
 		var t = Date.now();
 			d = t - this.lastTimestamp;
 			this.lastTimestamp = t;
 			
-		// Update experiments
-		for (var i=0; i<this.experiments.length; i++) {
-			this.experiments[i].update( d );
+		// Perform scene updates only if not paused
+		if (!this.paused) {
+
+			// Update experiments
+			for (var i=0; i<this.experiments.length; i++) {
+				this.experiments[i].update( d );
+			}
+
 		}
 
 		// Update controls
@@ -139,7 +147,7 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		if (this.paused && !paused) {
 			this.paused = false;
 			this.lastTimestamp = Date.now();
-			this.animate();
+			this.render();
 
 		// Pause scene if animating
 		} else if (!this.paused && paused) {

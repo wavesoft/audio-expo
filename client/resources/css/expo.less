@@ -20,12 +20,54 @@ body {
 }
 
 // ============================
+// Full-screen progress bar
+// ============================
+
+.progressbar {
+
+	// Position
+	position: absolute;
+	left: 0; bottom: 0;
+	width: 100%;
+
+	// Styling
+	background-color: #333;
+
+	// Tweening
+	opacity: 0;
+	height: 0px;
+	-webkit-transition: height 0.25s, opacity 0.25s;
+	-moz-transition: height 0.25s, opacity 0.25s;
+	-ms-transition: height 0.25s, opacity 0.25s;
+	-o-transition: height 0.25s, opacity 0.25s;
+	transition: height 0.25s, opacity 0.25s;
+
+	// Display when shown
+	&.active {
+		opacity: 1;
+		height: 25px;
+	}
+	
+	.indicator {
+
+		// Position
+		position: absolute;
+		left: 0; top: 0; height: 25px;
+	
+		// Styling
+		background-color: #990099;
+
+	}
+
+}
+
+// ============================
 // Splash Screen
 // ============================
 
 // Configuration
-@splash-width: 450px;
-@splash-height: 200px;
+@splash-width: 500px;
+@splash-height: 240px;
 
 .splash {
 
@@ -57,12 +99,18 @@ body {
 		border-radius: 20px;
 		background-color: rgba(30,30,30,0.8);
 		
-		// Heading
-		.head {
-			font-size: 20px;
-			color: #999;
+		// Content
+		.content {
+			font-size: 16px;
 			text-align: center;
 			padding: 20px;
+
+			// Content coloring
+			color: #666;
+			h1 {
+				color: #999;
+			}
+
 		}
 
 		// Buttons footer
