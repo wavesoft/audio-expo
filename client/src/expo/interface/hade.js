@@ -5,6 +5,9 @@ define(["jquery"], function($) {
 	/**
 	 * HMD-Aware DOM Element
 	 *
+	 * This is a very simple DOM helper that renders DOM elements side-by-side
+	 * when using in HMD mode.
+	 *
 	 */
 	var HADE = function( viewport ) {
 
@@ -22,22 +25,22 @@ define(["jquery"], function($) {
 		this.rightHostDOM = $('<div class="hade-right"></div>').appendTo(this.hostDOM);
 		this.rightDOM = $('<div class="content"></div>').appendTo(this.rightHostDOM);
 
-		// Synchronize right DOM with left
-		this.leftDOM.on("DOMSubtreeModified", (function(){ 
-			if (!this.tree) return;
+		// // Synchronize right DOM with left
+		// this.leftDOM.on("DOMSubtreeModified", (function(){ 
+		// 	if (!this.tree) return;
 
-			// When anything from left DOM changes, clone the whole dom to the right DOM
-			this.rightDOM.empty();
-			this.rightDOM.append( this.tree.clone() );
+		// 	// When anything from left DOM changes, clone the whole dom to the right DOM
+		// 	this.rightDOM.empty();
+		// 	this.rightDOM.append( this.tree.clone() );
 
-		}).bind(this));
-		this.leftDOM.on("DOMAttrModified", (function(e){ 
+		// }).bind(this));
+		// this.leftDOM.on("DOMAttrModified", (function(e){ 
 
-			// Find the target element
-			window.e = e;
-			alert("happened!");
+		// 	// Find the target element
+		// 	window.e = e;
+		// 	alert("happened!");
 
-		}).bind(this));
+		// }).bind(this));
 
 		// Embed hostDOM to the viewport
 		viewport.viewportDOM.append( this.hostDOM );
@@ -48,21 +51,46 @@ define(["jquery"], function($) {
 	/**
 	 * Enable or disable HMD rendering
 	 */
-	HADE.prototype.setContents = function( tree ) {
+	HADE.prototype.setContents = function( contents ) {
+
+		// Flush both DOMs
+		this.clearContents();
+
+		// Add contents
+		return this.addContents( contents );
+
+	}
+
+	/**
+	 * Clear HMD contents
+	 */
+	HADE.prototype.clearContents = function( contents ) {
 
 		// Flush both DOMs
 		this.leftDOM.empty();
-		// this.rightDOM.empty();
-
-		// Append DOM Tree to left & clone on right
-		this.tree = tree;
-		this.leftDOM.append( tree );
-		// this.rightDOM.append( tree.clone(true, true) );
+		this.rightDOM.empty();
 
 		// Select both contents and return a unified selector
 		// This can be used for updating both contents at once
-		// return this.hostDOM.find("div > .content");
-		return tree;
+		return this.hostDOM.find("div > .content");
+
+	}
+
+	/**
+	 * Append HMD contents
+	 */
+	HADE.prototype.addContents = function( contents ) {
+
+		// If contents is a string, convert to DOM element
+		if (typeof(contents) == "string") contents = $(contents);
+
+		// Append DOM contents to left & clone on right
+		this.leftDOM.append( contents );
+		this.rightDOM.append( contents.clone(true, true) );
+
+		// Select both contents and return a unified selector
+		// This can be used for updating both contents at once
+		return this.hostDOM.find("div > .content");
 
 	}
 

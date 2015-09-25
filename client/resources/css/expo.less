@@ -161,6 +161,8 @@ body {
 				// Fonts & Icon
 				font-size: 1em;
 				span {
+				    font-size: 1.8em;
+				    vertical-align: sub;
 					font-size: 1.4em;
 				}
 
@@ -222,22 +224,29 @@ body {
 		}
 	}
 
-	// The content pane
+	// Content styling
 	.content {
-
-		// Position and size
 		position: absolute;
-		width: @hade-width;
-		height: @hade-height;
-		
-		// Center
-		left: 50%; top: 50%;
-		-webkit-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
-		-moz-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
-		-ms-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
-		-o-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
-		transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		left: 0; top: 0; width: 100%; height: 100%;
+
+		// A centered content pane
+		.center-pane {
+
+			// Position and size
+			position: absolute;
+			width: @hade-width;
+			height: @hade-height;
+			
+			// Center
+			left: 50%; top: 50%;
+			-webkit-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+			-moz-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+			-ms-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+			-o-transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+			transform: translateX(-@hade-width/2) translateY(-@hade-height/2) ;
+		}
 
 	}
 
 }
+

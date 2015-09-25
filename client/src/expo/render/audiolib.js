@@ -11,6 +11,10 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 	 */
 	var AudioLibrary = function( progressManager ) {
 
+		/////////////////////////////////////////////////////////////
+		// Properties
+		/////////////////////////////////////////////////////////////
+
 		/**
 		 * The progress manager to use to report loading events
 		 * @property
@@ -51,6 +55,9 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 		 */
 		this._loading = false;
 
+		/////////////////////////////////////////////////////////////
+		// Constructor
+		/////////////////////////////////////////////////////////////
 
 		//
 		// Test for various audio formats

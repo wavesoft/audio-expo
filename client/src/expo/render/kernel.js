@@ -26,6 +26,10 @@ define([ "jquery",
 	 */
 	var ExpoKernel = function( viewportDOM ) {
 
+		/////////////////////////////////////////////////////////////
+		// Properties
+		/////////////////////////////////////////////////////////////
+
 		/**
 		 * The viewport object
 		 * @property viewport
@@ -45,37 +49,41 @@ define([ "jquery",
 		this.audio = new AudioLibrary( this.progressManager );
 
 		/**
-		 * The HMD-Aware Dom Element that renders the game menu
+		 * The HMD-Aware DOM Element container for scene HTML 
 		 * @property audio
 		 */
 		this.hade = new HADE( this.viewport );
 
 		/**
-		 * The game-wide progress bar
+		 * The game-wide progress bar in HADE
 		 * @property audio
 		 */
-		this.progressbar = ProgressBar;
-		viewportDOM.append( this.progressbar );
+		this.progressbar = this.hade.addContents( ProgressBar ).find(".progressbar");
 
 		/**
 		 * The splash screen shown to the user when the app
-		 * is not running
+		 * is not running.
+		 *
 		 * @property splash
 		 */
 		this.splash = LauncherScreen;
+
+		/////////////////////////////////////////////////////////////
+		// Constructor
+		/////////////////////////////////////////////////////////////
+
+		//
+		// Initialize splash screen
+		//
 		viewportDOM.append( this.splash );
 
-		// Bind on splash page button events
+		// Bind on splash page buttons
 		this.splash.find("#start-classic").click((function(e) {
 			this.startClassic();
 		}).bind(this));
 		this.splash.find("#start-hmd").click((function(e) {
 			this.startHMD();
 		}).bind(this));
-
-		/**
-		 * Core event listeners
-		 */
 
 		//
 		// Bind progress bar to the progress events

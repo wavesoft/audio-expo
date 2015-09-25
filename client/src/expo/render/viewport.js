@@ -7,15 +7,20 @@ define(["three-extras", "jquery"], function(THREE, $) {
 	 */
 	var Viewport = function( viewportDOM, config ) {
 
+		/////////////////////////////////////////////////////////////
+		// Properties
+		/////////////////////////////////////////////////////////////
+
+		/////////////////////////////////////////////////////////////
+		// Constructor
+		/////////////////////////////////////////////////////////////
+
 		// Initialize properties
 		this.viewportDOM = $(viewportDOM);
 		this.paused = true;
 		this.useHMD = false;
 		this.autoPause = true;
 		this.experiments = [];
-
-		// Initialize a clock
-		this.clock = new THREE.Clock();
 
 		// Initialize a THREE scene
 		this.scene = new THREE.Scene();
@@ -24,7 +29,7 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		this.camera = new THREE.PerspectiveCamera( 75, 1.0, 0.1, 1000 );
 
 		// Set the initial location of the camera
-		// (Virtual units assumed to be meters)
+		// (Virtual units assumed to be in meters)
 		this.camera.position.x = -5.0;
 		this.camera.position.z = 2.8;
 		this.camera.lookAt( new THREE.Vector3( 0, 0, 2.8 ) );
