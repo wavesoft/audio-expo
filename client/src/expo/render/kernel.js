@@ -2,14 +2,16 @@
 
 define([ "jquery", 
 		 "./viewport", 
-		 "./audiolib", 
+		 "./audiomanager", 
+		 "./assetmanager",
 		 "./progressmanager",
 		 "expo/interface/launcher",
 		 "expo/interface/progressbar",
 		 "expo/interface/hade" ], 
 	function($, 
 		Viewport, 
-		AudioLibrary, 
+		AudioManager, 
+		AssetManager,
 		ProgressManager, 
 		LauncherScreen, 
 		ProgressBar,
@@ -46,7 +48,13 @@ define([ "jquery",
 		 * The audio library
 		 * @property audio
 		 */
-		this.audio = new AudioLibrary( this.progressManager );
+		this.audio = new AudioManager( this.progressManager );
+
+		/**
+		 * The asset manager and game-wide asset database
+		 * @property audio
+		 */
+		this.assets = new AssetManager( this.progressManager, this.audio );
 
 		/**
 		 * The HMD-Aware DOM Element container for scene HTML 
@@ -78,8 +86,8 @@ define([ "jquery",
 		viewportDOM.append( this.splash );
 
 		// Bind on splash page buttons
-		this.splash.find("#start-classic").click((function(e) {
-			this.startClassic();
+		this.splash.find("#start-desktop").click((function(e) {
+			this.startDesktop();
 		}).bind(this));
 		this.splash.find("#start-hmd").click((function(e) {
 			this.startHMD();
@@ -130,7 +138,7 @@ define([ "jquery",
 		// Stop application when exits full-screen mode
 		//
 
-		var FShandler = (function(e) {
+		var fullscreen_handler = (function(e) {
 			if (
 				document.fullscreenElement ||
 				document.webkitFullscreenElement ||
@@ -144,10 +152,10 @@ define([ "jquery",
 			}
 
 		}).bind(this);
-		document.addEventListener("fullscreenchange", FShandler);
-		document.addEventListener("webkitfullscreenchange", FShandler);
-		document.addEventListener("mozfullscreenchange", FShandler);
-		document.addEventListener("MSFullscreenChange", FShandler);
+		document.addEventListener("fullscreenchange", fullscreen_handler);
+		document.addEventListener("webkitfullscreenchange", fullscreen_handler);
+		document.addEventListener("mozfullscreenchange", fullscreen_handler);
+		document.addEventListener("MSFullscreenChange", fullscreen_handler);
 
 		// Wait when DOM is loaded and hit one render
 		setTimeout((function() {
@@ -190,6 +198,26 @@ define([ "jquery",
 	}
 
 	/**
+	 * Load an experiment from the specified URL
+	 */
+	ExpoKernel.prototype.loadExperiment = function( url ) {
+		// Load experiment class through require.js
+		require(url, (function(ExperimentClass) {
+			// Load all the resources according to the
+			// experiment specifications
+			this.assets.loadAll( ExperimentClass.resources,
+				// The experiment dependencies are resolved
+				(function( resources ) {
+					// Instance experiment and place it in viewport
+					this.viewport.addExperiment(
+							new ExperimentClass( resources )
+						);
+				}).bind(this)
+			);
+		}).bind(this));
+	}
+
+	/**
 	 * Start in HMD mode
 	 *
 	 * NOTE: This should be triggered through a user event in order
@@ -219,12 +247,12 @@ define([ "jquery",
 	}
 
 	/**
-	 * Start in non-HMD mode
+	 * Start in non-HMD (Desktop) mode
 	 *
 	 * NOTE: This should be triggered through a user event in order
 	 *       to enable full-screen.
 	 */
-	ExpoKernel.prototype.startClassic = function() {
+	ExpoKernel.prototype.startDesktop = function() {
 
 		// Hide splash
 		this.splash.fadeOut();

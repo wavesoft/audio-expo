@@ -11,6 +11,12 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		// Properties
 		/////////////////////////////////////////////////////////////
 
+		/**
+		 * Listeners that will be called upon every render() event
+		 * @property
+		 */
+		this.renderListeners = [];
+
 		/////////////////////////////////////////////////////////////
 		// Constructor
 		/////////////////////////////////////////////////////////////
@@ -19,8 +25,8 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		this.viewportDOM = $(viewportDOM);
 		this.paused = true;
 		this.useHMD = false;
-		this.autoPause = true;
 		this.experiments = [];
+		this.activeExperiment = null;
 
 		// Initialize a THREE scene
 		this.scene = new THREE.Scene();
@@ -43,21 +49,6 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Initialize the sizes (apply actual size)
 		this.resize();
-
-		// // Bind auto-pause event
-		// var preBlurStatus = false;
-		// $(window).blur((function() { 
-		// 	// Keep the state before blur
-		// 	preBlurStatus = this.paused;
-		// 	// If not paused, paused
-		// 	if (this.autoPause && !this.paused) 
-		// 		this.setPaused(true); 
-		// }).bind(this));
-		// $(window).focus((function() {
-		// 	// Return to the state before blur
-		// 	if (this.autoPause && !this.paused) 
-		// 		this.setPaused(preBlurStatus);
-		// }).bind(this));
 
 		// ==== DEBUG =====
 		window.vp = this;
@@ -90,6 +81,27 @@ define(["three-extras", "jquery"], function(THREE, $) {
 	}
 
 	/**
+	 * Add a render listener
+	 * @param {function} listener - The listener function to call before rendering the scene
+	 */
+	Viewport.prototype.addRenderListener = function( listener ) {
+		// Add listener on list
+		this.renderListeners.push( listener );
+	}
+
+	/**
+	 * Remove a render listener
+	 * @param {function} listener - The listener function to remove
+	 */
+	Viewport.prototype.removeRenderListener = function( listener ) {
+		// Query
+		var i = this.renderListeners.indexOf(listener);
+		if (i < 0) return;
+		// Remove
+		this.renderListeners.splice(i,1);
+	}
+
+	/**
 	 * Render content
 	 */
 	Viewport.prototype.render = function() {
@@ -103,34 +115,37 @@ define(["three-extras", "jquery"], function(THREE, $) {
 			this.lastTimestamp = t;
 			
 		// Perform scene updates only if not paused
+		//
+		// (Render events might still be triggered ex. when window
+		//  resizes. This should not update the scene though...)
+		//
 		if (!this.paused) {
+
+			// Call render listeners
+			for (var i=0; i<this.renderListeners.length; i++) {
+				this.renderListeners[i]( d, t );
+			}
 
 			// Update experiments
 			for (var i=0; i<this.experiments.length; i++) {
-				this.experiments[i].update( d );
+				this.experiments[i].onUpdate( d );
 			}
 
-		}
+			// Update controls
+			// controls.update( this.clock.getDelta() );
+			// oculuscontrol.update( this.clock.getDelta() );
 
-		// Update controls
-		// controls.update( this.clock.getDelta() );
-		// oculuscontrol.update( this.clock.getDelta() );
+		}
 			
 		// Render scene
 		if (this.useHMD) {
+			// Use HMD Effect for rendering the sterep image
 			this.hmdEffect.render( this.scene, this.camera );
 		} else {
+			// Otherwise use classic renderer
 			this.renderer.render( this.scene, this.camera );
 		}
 
-	}
-
-	/**
-	 * Enable or disable automatic pausing when the window is not focused
-	 */
-	Viewport.prototype.setAutoPause = function( enabled ) {
-		// Set the automatic pause enabled flag
-		this.autoPause = enabled;
 	}
 
 	/**
@@ -164,8 +179,12 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 	/**
 	 * Add an experiment to the viewport
+	 *
+	 * @param {ExperimentBase} experiment - The experiment to add
 	 */
 	Viewport.prototype.addExperiment = function( experiment ) {
+
+		// Store experiment in registry
 		this.experiments.push( experiment );
 
 		// Add objects
@@ -173,8 +192,96 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Add lights
 		for (var i=0; i<experiment.lights.length; i++) {
+
+			// Keep original color & Turn light off
+			experiment.lights[i].originalColor = experiment.lights[i].color.getHex();
+			experiment.lights[i].color.setHex( 0x000000 );
+
+			// Add light on scene
 			this.scene.add( experiment.lights[i] );
+
 		}
+
+		// If we had no active experiment so far, activate it too
+		this.activateExperiment( experiment );
+
+	}
+
+	/**
+	 * Activate the specified experiment
+	 *
+	 * @param {ExperimentBase} experiment - The experiment to activate
+	 * @param {int} duration - How long the tween betwee the two experiments will be (in milliseconds)
+	 */
+	Viewport.prototype.activateExperiment = function( experiment, duration ) {
+
+		// Calculate step and interval
+		var duration = duration || 1000,
+			progressPerMs = 1.0 / duration;
+
+		// Make sure this experiment is ours
+		if (this.experiments.indexOf(experiment) == -1) {
+			console.error("activateExperiment: The specified experiment is not registered in the viewport!");
+			return;
+		}
+
+		// Make sure we are not activating an active experiment
+		if (this.activeExperiment == experiment) return;
+
+		// Inform current experiment that is activated
+		experiment.onActivate();
+
+		// Prepare for tween
+		var tweenProgress = 0,
+			tweenFunction = (function( delta, ts ) {
+
+				// Wrap bounds
+				if (tweenProgress > 1.0) tweenProgress = 1.0;
+
+				// ------------------------------------------------------
+				//
+				// Tween-OUT Past experiment
+				//
+				if (this.activeExperiment) {
+					// Fade out all the lights of the previous experiment
+					for (var i=0; i<this.activeExperiment.lights.length; i++) {
+						this.activeExperiment.lights[i].color
+							.setHex( this.activeExperiment.lights[i].originalColor )
+							.multiplyScalar( 1 - tweenProgress );
+					}
+				}
+
+				// ------------------------------------------------------
+				//
+				// Tween-IN Current experiment
+				//
+
+				// Fade in the lights of the current experiment
+				for (var i=0; i<experiment.lights.length; i++) {
+					experiment.lights[i].color
+						.setHex( experiment.lights[i].originalColor )
+						.multiplyScalar( tweenProgress );
+				}
+
+				// ------------------------------------------------------
+
+				// Handle termination
+				if (tweenProgress == 1.0) {
+					// Inform past experiment that is now inactive
+					this.activeExperiment.onDeactivate();
+					// Set the new active experiment
+					this.activeExperiment = experiment;
+					// Remove from render listeners
+					this.removeRenderListener( tweenFunction );
+				}
+
+				// Update progress
+				tweenProgress += progressPerMs * delta;
+
+		}).bind(this);
+
+		// Register tween function
+		this.addRenderListener( tweenFunction );
 
 	}
 

@@ -7,8 +7,9 @@ define(["three"], function(THREE) {
 	 *
 	 * @constructor 
 	 * @class ExperimentBase
+	 * @param {object} resources - The instances of all the requested resources
 	 */
-	var ExperimentBase = function() {
+	var ExperimentBase = function( resources ) {
 
 		/**
 		 * The scene property is the root object tree
@@ -49,14 +50,26 @@ define(["three"], function(THREE) {
 		this.bbox = null;
 
 	}
-
+	
 	/**
 	 * Overridable function to handle scene updates
 	 *
 	 * @param {int} delta - The number of millisecond since last call
 	 * @abstract
 	 */
-	ExperimentBase.prototype.update = function( delta ) { }
+	ExperimentBase.prototype.onUpdate = function( delta ) { }
+
+	/**
+	 * Overridable function called when the experiment is activated
+	 * @abstract
+	 */
+	ExperimentBase.prototype.onActivate = function() { }
+
+	/**
+	 * Overridable function called when the experiment is de-activated
+	 * @abstract
+	 */
+	ExperimentBase.prototype.onDeactivate = function() { }
 
 	/**
 	 * Update the scene's bounding box

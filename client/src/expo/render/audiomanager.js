@@ -3,13 +3,13 @@
 define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 
 	/**
-	 * The audio library takes care of loading and processing
+	 * The audio manager takes care of loading and processing
 	 * audio elements in the interface.
 	 *
-	 * @class AudioLibrary
+	 * @class AudioManager
 	 * @constructor
 	 */
-	var AudioLibrary = function( progressManager ) {
+	var AudioManager = function( progressManager ) {
 
 		/////////////////////////////////////////////////////////////
 		// Properties
@@ -28,7 +28,13 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 		this.context = new AudioContext()
 
 		/**
-		 * The line out
+		 * The line in from the user's microphone
+		 * @property
+		 */
+		this.lineIn = null;
+
+		/**
+		 * The line out to the user's speakers
 		 * @property
 		 */
 		this.lineOut = new WebAudiox.LineOut( this.context );
@@ -70,12 +76,32 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 			}
 		}
 
+		//
+		// Open microphone input
+		//
+
+		// Handle user's positive response
+		var handleStream = (function(stream) {
+			// Create an AudioNode from the stream.
+			this.lineIn = this.context.createMediaStreamSource( stream );
+		}).bind(this);
+
+		// Handle user's negative response
+		var handleError = (function() {
+			// Display error
+			alert("Unable to open audio input stream!");
+		}).bind(this);
+
+		// Get user media
+		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia|| navigator.oGetUserMedia;
+		navigator.getUserMedia( {audio:true}, handleStream, handleError );
+
 	}
 
 	/**
 	 * Load a the next item from stack
 	 */
-	AudioLibrary.prototype._loadNext = function () {
+	AudioManager.prototype._loadNext = function () {
 
 		// Get next item or stop if nothing else to load
 		var url = this._loadingStack.shift();
@@ -115,7 +141,7 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 	 *
 	 * @param {string} url - The URL of the audio file to load (without extension)
 	 */
-	AudioLibrary.prototype.load = function ( url ) {
+	AudioManager.prototype.load = function ( url ) {
 
 		// Append browser-specific extension
 		var fullURL = url + this.audioSuffix;
@@ -138,7 +164,7 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 	/**
 	 * Play a sound buffer
 	 */
-	AudioLibrary.prototype.play = function ( buffer, loop ) {
+	AudioManager.prototype.play = function ( buffer, loop ) {
 
 		// init AudioBufferSourceNode
 		var source = this.context.createBufferSource();
@@ -154,16 +180,16 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 	/**
 	 * Pause all the currently playing sounds
 	 */
-	AudioLibrary.prototype.pause = function () {
+	AudioManager.prototype.pause = function () {
 	}
 
 	/**
 	 * Resume all the currently playing sounds
 	 */
-	AudioLibrary.prototype.resume = function () {
+	AudioManager.prototype.resume = function () {
 	}
 
 	// Return render manager singleton
-	return AudioLibrary;
+	return AudioManager;
 
 });

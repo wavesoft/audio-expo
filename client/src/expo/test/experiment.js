@@ -8,7 +8,7 @@ define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment
 	var Experiment = function() {
 		BaseExperiment.call(this);
 
-		var geometry = new THREE.SphereGeometry( 5, 4, 4 );
+		var geometry = new THREE.BoxGeometry( 4, 4, 4 );
 		var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
 
 		// Create a bunch of cubes
@@ -35,8 +35,10 @@ define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment
 		// Create some point light 
 		var light = new THREE.PointLight( 0xffffff, 1, 1000 );
 		light.position.set( 50,50,50 );
+		this.lights.push( light );
 
-		// Store on lights
+		// Create some ambient light 
+		var light = new THREE.AmbientLight( 0x333333);
 		this.lights.push( light );
 
 	}
@@ -49,7 +51,7 @@ define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment
 	/**
 	 * Handle animation events
 	 */
-	Experiment.prototype.update = function( delta ) {
+	Experiment.prototype.onUpdate = function( delta ) {
 
 		for (var i=0; i<this.cubes.length; i++) {
 			this.cubes[i].rotation.z += delta / 1000;

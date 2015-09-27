@@ -16,4 +16,7 @@ define(["jquery", "expo/render/kernel", "expo/test/experiment"],
 	// We are ready
 	bodyDOM.removeClass("loading");
 
+	// Return expo API
+	return kernel;
+
 });
