@@ -46,7 +46,7 @@ define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment
 	/**
 	 * Subclass from BaseExperiment
 	 */
-	Experiment.prototype = Object.create( BaseExperiment );
+	Experiment.prototype = Object.create( BaseExperiment.prototype );
 
 	/**
 	 * Handle animation events

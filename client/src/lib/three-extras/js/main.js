@@ -2,7 +2,9 @@ define([
 
 	'three',
 
-	'three-extras/effects/OculusRiftEffect'
+	'./effects/OculusRiftEffect',
+	'./loaders/OBJLoader',
+	'./loaders/ColladaLoader',
 
 ], function(THREE) {
 

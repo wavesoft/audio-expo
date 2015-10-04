@@ -268,9 +268,11 @@ define(["three-extras", "jquery"], function(THREE, $) {
 				// Handle termination
 				if (tweenProgress == 1.0) {
 					// Inform past experiment that is now inactive
-					this.activeExperiment.onDeactivate();
+					if (this.activeExperiment) {
+						this.activeExperiment.onDeactivate();
 					// Set the new active experiment
 					this.activeExperiment = experiment;
+					}
 					// Remove from render listeners
 					this.removeRenderListener( tweenFunction );
 				}
