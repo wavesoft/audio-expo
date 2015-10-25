@@ -1,5 +1,4 @@
 
-
 define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 
 	/**
@@ -178,15 +177,10 @@ define([ "buzz", "webaudiox" ], function( buzz, WebAudiox ) {
 	}
 
 	/**
-	 * Pause all the currently playing sounds
+	 * Mute or unmute all sounds
 	 */
-	AudioManager.prototype.pause = function () {
-	}
+	AudioManager.prototype.setMute = function ( isMuted ) {
 
-	/**
-	 * Resume all the currently playing sounds
-	 */
-	AudioManager.prototype.resume = function () {
 	}
 
 	// Return render manager singleton

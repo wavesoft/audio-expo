@@ -19,6 +19,10 @@ require.config({
 			'location'	: 'lib/three-extras/js'
 		},
 		{
+			'name'		: 'three-bundles',
+			'location'	: 'lib/three-bundles/js'
+		},
+		{
 			'name'		: 'buzz',
 			'location'	: 'lib/buzz/js',
 			'main'		: 'buzz-1.1.10.min'

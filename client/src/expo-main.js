@@ -24,12 +24,38 @@ requirejs.config({
 		'waitSeconds'	: 20
 	},
 
+	/**
+	 * Three Bundles
+	 */
+	threeBundles: {
+
+		/**
+		 * Three.JS Bundles are loaded from the experiments folder
+		 */
+		'baseUrl': '../experiments'
+
+	},
+
     /**
      * Mapping to other modules
      */
 	map: {
 		'*': {
-			'text'		 : 'lib/require-text/js/text-2.0.14'
+
+			// Core Plugins
+			'text'		 : 'lib/require-text/js/text-2.0.14',
+
+			// // Three Bundles 
+			// 'bundle'	 : 'lib/three-bundles/js/plugin/bundle',
+			// 'material'	 : 'lib/three-bundles/js/plugin/material',
+			// 'mesh'		 : 'lib/three-bundles/js/plugin/mesh',
+			// 'object'	 : 'lib/three-bundles/js/plugin/object',
+			// 'geometry'	 : 'lib/three-bundles/js/plugin/geometry',
+			// 'scene'		 : 'lib/three-bundles/js/plugin/scene',
+			// 'shader'	 : 'lib/three-bundles/js/plugin/shader',
+			// 'sound'		 : 'lib/three-bundles/js/plugin/texture',
+			// 'texture'	 : 'lib/three-bundles/js/plugin/texture',
+
 		},
 	}
 

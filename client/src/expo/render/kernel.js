@@ -188,9 +188,11 @@ define([ "jquery",
 
 		// Disable HMD
 		this.setHMD(false);
-
 		// Pause viewport rendering
 		this.viewport.setPaused( true );
+		
+		// Mute audio
+		this.audio.setMute( true );
 
 		// Show splash
 		this.splash.fadeIn();
@@ -232,6 +234,9 @@ define([ "jquery",
 		this.setHMD(true);
 		this.viewport.setPaused( false );
 
+		// Unmute audio
+		this.audio.setMute( false );
+
 		// Request full screen
 		var vpDOM = this.viewport.viewportDOM[0];
 		if (vpDOM.requestFullscreen) {
@@ -260,6 +265,9 @@ define([ "jquery",
 		// Disable HMD & Start rendering
 		this.setHMD(false);
 		this.viewport.setPaused( false );
+
+		// Unmute audio
+		this.audio.setMute( false );
 
 		// Request full screen
 		var vpDOM = this.viewport.viewportDOM[0];

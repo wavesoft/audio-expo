@@ -121,6 +121,8 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		//
 		if (!this.paused) {
 
+			this.camera.rotation.y += 0.01;
+
 			// Call render listeners
 			for (var i=0; i<this.renderListeners.length; i++) {
 				this.renderListeners[i]( d, t );

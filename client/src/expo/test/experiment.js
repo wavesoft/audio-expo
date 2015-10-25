@@ -13,12 +13,12 @@ define(["webaudiox", "expo/experiment/base"], function(WebAudiox, BaseExperiment
 
 		// Create a bunch of cubes
 		this.cubes = [];
-		for (var i=0; i<100; i++) {
+		for (var i=0; i<500; i++) {
 			var cube = new THREE.Mesh( geometry, material );
 			cube.position.set(
-					Math.random() * 50 - 25,
-					Math.random() * 50 - 25,
-					Math.random() * 50 - 25
+					Math.random() * 500 - 250,
+					Math.random() * 500 - 250,
+					Math.random() * 500 - 250
 				);
 			cube.rotation.set(
 					Math.random() * 3,

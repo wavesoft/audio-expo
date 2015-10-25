@@ -1,5 +1,5 @@
 
-define(["jquery", "expo/render/kernel", "expo/test/experiment"], 
+define(["jquery", "expo/render/kernel", "expo/test/experiment", "three-bundles"], 
       function($, Kernel, Experiment) {
 
 	// Create a viewport DOM

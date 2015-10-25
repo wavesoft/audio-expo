@@ -14,13 +14,13 @@ define(['three'], function(THREE) {
 
 		// Specific HMD parameters
 		var HMD = (options && options.HMD) ? options.HMD: {
-			// Parameters from the Oculus Rift DK1
-			hResolution: 1280,
-			vResolution: 800,
-			hScreenSize: 0.14976,
-			vScreenSize: 0.0936,
-			interpupillaryDistance: 0.064,
-			lensSeparationDistance: 0.064,
+			// Parameters from the Oculus Rift DK2
+			hResolution: 1920, // <--
+			vResolution: 1080, // <--
+			hScreenSize: 0.12576, // <--
+			vScreenSize: 0.07074, // <--
+			interpupillaryDistance: 0.0635, // <--
+			lensSeparationDistance: 0.0635, // <--
 			eyeToScreenDistance: 0.041,
 			distortionK : [1.0, 0.22, 0.24, 0.0],
 			chromaAbParameter: [ 0.996, -0.004, 1.014, 0.0]
@@ -44,7 +44,7 @@ define(['three'], function(THREE) {
 
 		// Render target
 		var RTParams = { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat };
-		var renderTarget = new THREE.WebGLRenderTarget( 640, 800, RTParams );
+		var renderTarget = new THREE.WebGLRenderTarget( 960, 1080, RTParams );
 		var RTMaterial = new THREE.ShaderMaterial( {
 			uniforms: {
 				"texid": { type: "t", value: renderTarget },

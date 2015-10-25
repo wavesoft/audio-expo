@@ -1,0 +1,4 @@
+{
+	"geometry": 	"geometry!./entrance.json",
+	"material":		"material!./entrance.json"
+}
