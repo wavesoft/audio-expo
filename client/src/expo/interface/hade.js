@@ -21,9 +21,9 @@ define(["jquery"], function($) {
 
 		// Two mirrored elements
 		this.leftHostDOM = $('<div class="hade-left"></div>').appendTo(this.hostDOM);
-		this.leftDOM = $('<div class="content">Lorem impsum dolor sit amet.</div>').appendTo(this.leftHostDOM);
+		this.leftDOM = $('<div class="content"></div>').appendTo(this.leftHostDOM);
 		this.rightHostDOM = $('<div class="hade-right"></div>').appendTo(this.hostDOM);
-		this.rightDOM = $('<div class="content">Lorem impsum dolor sit amet.</div>').appendTo(this.rightHostDOM);
+		this.rightDOM = $('<div class="content"></div>').appendTo(this.rightHostDOM);
 
 		// // Synchronize right DOM with left
 		// this.leftDOM.on("DOMSubtreeModified", (function(){ 

@@ -36,9 +36,9 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Set the initial location of the camera
 		// (Virtual units assumed to be in meters)
-		this.camera.position.x = -5.0;
-		this.camera.position.z = 2.8;
-		this.camera.lookAt( new THREE.Vector3( 0, 0, 2.8 ) );
+		this.camera.position.y = 2.0;
+		this.camera.position.z = 0;
+		this.camera.lookAt( new THREE.Vector3( 0, 2.0, 2.0 ) );
 
 		// Initialize the renderer
 		this.renderer = new THREE.WebGLRenderer();
@@ -46,6 +46,9 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Initialize the effect
 		this.hmdEffect = new THREE.OculusRiftEffect( this.renderer, { worldScale: 1 } );
+
+		// Initialize HMD controls
+		this.hmdControls = new THREE.VRControls( this.camera );
 
 		// Initialize the sizes (apply actual size)
 		this.resize();
@@ -121,8 +124,6 @@ define(["three-extras", "jquery"], function(THREE, $) {
 		//
 		if (!this.paused) {
 
-			this.camera.rotation.y += 0.01;
-
 			// Call render listeners
 			for (var i=0; i<this.renderListeners.length; i++) {
 				this.renderListeners[i]( d, t );
@@ -133,9 +134,10 @@ define(["three-extras", "jquery"], function(THREE, $) {
 				this.experiments[i].onUpdate( d );
 			}
 
-			// Update controls
-			// controls.update( this.clock.getDelta() );
-			// oculuscontrol.update( this.clock.getDelta() );
+			// If using HMD, update camera position
+			if (this.useHMD) {
+				this.hmdControls.update();
+			}
 
 		}
 			

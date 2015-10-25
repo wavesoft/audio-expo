@@ -3,8 +3,7 @@ define([
 	'three',
 
 	'./effects/OculusRiftEffect',
-	'./loaders/OBJLoader',
-	'./loaders/ColladaLoader',
+	'./cameracontrols/VRControls'
 
 ], function(THREE) {
 

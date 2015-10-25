@@ -35,3 +35,8 @@ require.config({
 	],
 
 });
+
+/**
+ * Preload packages
+ */
+define(["three", "three-extras", "three-bundles"], {})

@@ -116,6 +116,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
+  font-size: 1.4em;
   -webkit-transform-origin: 50% 0;
   -moz-transform-origin: 50% 0;
   -ms-transform-origin: 50% 0;
@@ -123,23 +124,23 @@ body {
   transform-origin: 50% 0;
 }
 .hade.hmd {
-  perspective-origin: 0 50%;
+  perspective-origin: 50% 50%;
   perspective: 1000px;
 }
 .hade.hmd .hade-left {
-  -webkit-transform: scaleX(0.48) rotateY(2deg) translateX(1%);
-  -moz-transform: scaleX(0.48) rotateY(2deg) translateX(1%);
-  -ms-transform: scaleX(0.48) rotateY(2deg) translateX(1%);
-  -o-transform: scaleX(0.48) rotateY(2deg) translateX(1%);
-  transform: scaleX(0.48) rotateY(2deg) translateX(1%);
+  -webkit-transform: scaleX(0.7) rotateY(2deg) translateX(1%);
+  -moz-transform: scaleX(0.7) rotateY(2deg) translateX(1%);
+  -ms-transform: scaleX(0.7) rotateY(2deg) translateX(1%);
+  -o-transform: scaleX(0.7) rotateY(2deg) translateX(1%);
+  transform: scaleX(0.7) rotateY(2deg) translateX(1%);
   left: -25%;
 }
 .hade.hmd .hade-right {
-  -webkit-transform: scaleX(0.48) rotateY(-2deg) translateX(-1%);
-  -moz-transform: scaleX(0.48) rotateY(-2deg) translateX(-1%);
-  -ms-transform: scaleX(0.48) rotateY(-2deg) translateX(-1%);
-  -o-transform: scaleX(0.48) rotateY(-2deg) translateX(-1%);
-  transform: scaleX(0.48) rotateY(-2deg) translateX(-1%);
+  -webkit-transform: scaleX(0.7) rotateY(-2deg) translateX(-1%);
+  -moz-transform: scaleX(0.7) rotateY(-2deg) translateX(-1%);
+  -ms-transform: scaleX(0.7) rotateY(-2deg) translateX(-1%);
+  -o-transform: scaleX(0.7) rotateY(-2deg) translateX(-1%);
+  transform: scaleX(0.7) rotateY(-2deg) translateX(-1%);
   left: 25%;
 }
 .hade .content {

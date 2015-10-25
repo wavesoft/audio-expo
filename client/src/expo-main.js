@@ -43,19 +43,8 @@ requirejs.config({
 		'*': {
 
 			// Core Plugins
-			'text'		 : 'lib/require-text/js/text-2.0.14',
-
-			// // Three Bundles 
-			// 'bundle'	 : 'lib/three-bundles/js/plugin/bundle',
-			// 'material'	 : 'lib/three-bundles/js/plugin/material',
-			// 'mesh'		 : 'lib/three-bundles/js/plugin/mesh',
-			// 'object'	 : 'lib/three-bundles/js/plugin/object',
-			// 'geometry'	 : 'lib/three-bundles/js/plugin/geometry',
-			// 'scene'		 : 'lib/three-bundles/js/plugin/scene',
-			// 'shader'	 : 'lib/three-bundles/js/plugin/shader',
-			// 'sound'		 : 'lib/three-bundles/js/plugin/texture',
-			// 'texture'	 : 'lib/three-bundles/js/plugin/texture',
-
+			'text'		 : 'lib/require-text/js/text-2.0.14'
+			
 		},
 	}
 
