@@ -8,12 +8,13 @@ define([],{
     ],
     "name": "entrance.expo",
     "mesh": [
+        "entrance.obj",
         "entrance.json"
     ],
     "revision": 1,
     "texture": [
-        "expo-diffuse.jpg",
-        "expo-normal.jpg",
-        "expo-specular.jpg"
+        "expo-diffuse.png",
+        "expo-normal.png",
+        "expo-specular.png"
     ]
 });
