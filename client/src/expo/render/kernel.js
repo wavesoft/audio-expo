@@ -3,7 +3,6 @@
 define([ "jquery", 
 		 "./viewport", 
 		 "./audiomanager", 
-		 "./assetmanager",
 		 "./progressmanager",
 		 "expo/interface/launcher",
 		 "expo/interface/progressbar",
@@ -11,7 +10,6 @@ define([ "jquery",
 	function($, 
 		Viewport, 
 		AudioManager, 
-		AssetManager,
 		ProgressManager, 
 		LauncherScreen, 
 		ProgressBar,
@@ -49,12 +47,6 @@ define([ "jquery",
 		 * @property audio
 		 */
 		this.audio = new AudioManager( this.progressManager );
-
-		/**
-		 * The asset manager and game-wide asset database
-		 * @property audio
-		 */
-		this.assets = new AssetManager( this.progressManager, this.audio );
 
 		/**
 		 * The HMD-Aware DOM Element container for scene HTML 
@@ -203,20 +195,7 @@ define([ "jquery",
 	 * Load an experiment from the specified URL
 	 */
 	ExpoKernel.prototype.loadExperiment = function( url ) {
-		// Load experiment class through require.js
-		require(url, (function(ExperimentClass) {
-			// Load all the resources according to the
-			// experiment specifications
-			this.assets.loadAll( ExperimentClass.resources,
-				// The experiment dependencies are resolved
-				(function( resources ) {
-					// Instance experiment and place it in viewport
-					this.viewport.addExperiment(
-							new ExperimentClass( resources )
-						);
-				}).bind(this)
-			);
-		}).bind(this));
+
 	}
 
 	/**

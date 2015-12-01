@@ -32,7 +32,7 @@ requirejs.config({
 		/**
 		 * Three.JS Bundles are loaded from the experiments folder
 		 */
-		'baseUrl': '../experiments'
+		'baseUrl': 'experiments'
 
 	},
 
