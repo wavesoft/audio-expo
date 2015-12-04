@@ -1,6 +1,6 @@
 
 
-define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], function(WebAudiox, BaseExperiment, NoiseLevel) {
+define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], function(WebAudiox, BaseExperiment, bundle) {
 
 	/**
 	 * Create an experiment base class
@@ -34,21 +34,22 @@ define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], functio
 
 		this.t = 0;
 
-		// this.entrance = Entrance.RESOURCES.mesh['entrance.obj'];
-		// this.scene.add( this.entrance );
-		// console.log(NoiseLevel);
-
 		// Create some point light 
 		var light = new THREE.PointLight( 0xffffff, 1, 1000 );
 		light.position.set( 50,50,50 );
 		this.lights.push( light );
 
+		/*
+		// this.entrance = Entrance.RESOURCES.mesh['entrance.obj'];
+		// this.scene.add( this.entrance );
+		// console.log(bundle);
+
 		// Create some ambient light 
 		// var light = new THREE.AmbientLight( 0x222222 );
 		// this.lights.push( light );
 
-		// var geometry = NoiseLevel['geometry/pillar']; // new THREE.SphereGeometry( 0.25, 4, 4 );
-		// var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+		var geometry = bundle['geometry/pillar']; // new THREE.SphereGeometry( 0.25, 4, 4 );
+		var material = new THREE.MeshFaceMaterial( bundle['geometry/pillar:extra'] );
 
 		// var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
 		// light.position.set( 0, 1, 0 );
@@ -58,9 +59,21 @@ define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], functio
 		// light.position.set( 0, 6.5, 25.8 );
 		// this.lights.push( light );
 
-		// 	var m = new THREE.Mesh( geometry, material );
-		// 	m.position.set( 0, 6.5, 25.8 );
-		// 	this.scene.add( m );
+			var m = new THREE.Mesh( geometry, material );
+			m.position.set( 0,0,0 );
+			this.scene.add( m );
+
+			var m = new THREE.Mesh( geometry, material );
+			m.position.set( -200,0,0 );
+			this.scene.add( m );
+
+			var m = new THREE.Mesh( geometry, material );
+			m.position.set( 0,0,200 );
+			this.scene.add( m );
+
+			var m = new THREE.Mesh( geometry, material );
+			m.position.set( -200,0,200 );
+			this.scene.add( m );
 
 		// var light = new THREE.PointLight( 0xffffff, 1, 1000, 2 );
 		// light.position.set( 0, 6.5, 6.0 );
@@ -69,7 +82,8 @@ define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], functio
 		// 	var m = new THREE.Mesh( geometry, material );
 		// 	m.position.set( 0, 6.5, 6.0 );
 		// 	this.scene.add( m );
-
+		*/
+		
 	}
 
 	/**
@@ -87,8 +101,8 @@ define(["webaudiox", "expo/experiment/base", "bundle!noise-level.expo"], functio
 			this.cubes[i].rotation.x += delta / 1000;
 		}
 
-		this.t += delta/10000;
-		//this.entrance.position.z = Math.sin(this.t) * 10;
+		this.t += delta / 10000;
+		// this.m.position.z = Math.sin(this.t) * 10;
 
 	}
 

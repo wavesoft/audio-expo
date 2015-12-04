@@ -12,7 +12,7 @@ require.config({
 		{
 			'name'		: 'three',
 			'location'	: 'lib/three/js',
-			'main'		: 'three-0.72.0.min'
+			'main'		: 'three-0.72.0'
 		},
 		{
 			'name'		: 'three-extras',

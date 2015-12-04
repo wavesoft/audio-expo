@@ -36,8 +36,8 @@ define(["three-extras", "jquery"], function(THREE, $) {
 
 		// Set the initial location of the camera
 		// (Virtual units assumed to be in meters)
-		this.camera.position.set( 0.0, 2.0, 0.0 );
-		this.camera.lookAt( new THREE.Vector3( 0, 2.0, 2.0 ) );
+		this.camera.position.set( 0.0, 100.0, 0.0 );
+		this.camera.lookAt( new THREE.Vector3( 0, 100.0, 2.0 ) );
 
 		// Initialize the renderer
 		this.renderer = new THREE.WebGLRenderer();
