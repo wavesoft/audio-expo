@@ -1,8 +1,0 @@
-{
-	"objects": [
-		{
-			"src": "mesh!./entrance.json",
-			"position": [ 0.0, 0.0, 0.0 ]
-		}
-	]
-}

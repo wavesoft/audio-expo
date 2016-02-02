@@ -1,6 +1,0 @@
-{
-	"type"			: "MeshPhongMaterial",
-	"map" 			: "texture!./expo-diffuse.png",
-	"specularMap" 	: "texture!./expo-specular.png",
-	"normalMap" 	: "texture!./expo-normal.png"
-}
