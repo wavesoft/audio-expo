@@ -1,4 +1,3 @@
-
 var THREE = require("three-extras");
 var WebAudiox = require("webaudiox");
 var BaseExperiment = require("../core/experiment");

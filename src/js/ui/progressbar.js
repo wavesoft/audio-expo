@@ -1,4 +1,3 @@
-
 var $ = require("jquery");
 var template = require("html!html/progressbar.html");
 

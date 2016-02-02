@@ -1,3 +1,4 @@
+var path = require('path');
 var gulp = require('gulp');
 var less = require('gulp-less');
 var uglify = require('gulp-uglifyjs');
@@ -28,7 +29,7 @@ gulp.task('js', function() {
 		    		"web_modules", "node_modules", "lib"
 		    	],
 		    	alias: {
-		    		html: __dirname + "/src/html"
+		    		html: path.join(__dirname, 'src', 'html')
 		    	}
 		    }
 		}))
@@ -42,7 +43,8 @@ gulp.task('js', function() {
  */
 gulp.task('css', function() {
 	return gulp.src('src/css/*.less')
-		.pipe(less())
+		.pipe(less({
+		}))
 		.pipe(gulp.dest('build/css'));
 });
 
